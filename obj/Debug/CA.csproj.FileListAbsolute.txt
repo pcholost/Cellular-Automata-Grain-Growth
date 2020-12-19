@@ -1,0 +1,10 @@
+C:\Users\HalaMek\source\repos\CA\CA\bin\Debug\CA.exe.config
+C:\Users\HalaMek\source\repos\CA\CA\bin\Debug\CA.exe
+C:\Users\HalaMek\source\repos\CA\CA\bin\Debug\CA.pdb
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.csprojAssemblyReference.cache
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.Form1.resources
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.Properties.Resources.resources
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.csproj.GenerateResource.cache
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.csproj.CoreCompileInputs.cache
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.exe
+C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.pdb

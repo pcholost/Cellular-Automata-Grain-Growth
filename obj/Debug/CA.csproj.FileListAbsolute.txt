@@ -8,3 +8,13 @@ C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.csproj.GenerateResource.cache
 C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.csproj.CoreCompileInputs.cache
 C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.exe
 C:\Users\HalaMek\source\repos\CA\CA\obj\Debug\CA.pdb
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\bin\Debug\CA.exe.config
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\bin\Debug\CA.exe
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\bin\Debug\CA.pdb
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.csprojAssemblyReference.cache
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.Form1.resources
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.Properties.Resources.resources
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.csproj.GenerateResource.cache
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.csproj.CoreCompileInputs.cache
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.exe
+D:\HalaM\Pobrane\Multiscale-Modelling-main\Multiscale-Modelling-main\obj\Debug\CA.pdb

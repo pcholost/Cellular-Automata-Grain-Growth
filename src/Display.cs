@@ -45,7 +45,8 @@ namespace CA.src
 
         public void PrintCells()
         {
-            Clear();
+            if (data.IsSelectionClicked == false)
+                Clear();
 
             for (int i = 0; i < data.SizeY; i++)
             {
@@ -179,6 +180,63 @@ namespace CA.src
                 }
             }
 
+        }
+
+        public void DisplayBoundariesOfGrain()
+        {
+            if (data.IsSelectionClicked == false)
+                Clear();
+
+            for (int i = 0; i < data.SizeY; i++)
+            {
+                for (int j = 0; j < data.SizeX; j++)
+                {
+                    Rectangle rect = new Rectangle(
+                        j * data.CellSize,
+                        i * data.CellSize,
+                        data.CellSize,
+                        data.CellSize);
+                    graphics.FillRectangle(data.Colors[data.BoundariesArray[i, j]], rect);
+                }
+            }
+
+            pictureBox.Image = bitmap;
+        }
+
+        public void ExportDistribution(object sender, EventArgs e)
+        {
+            string path = Directory.GetCurrentDirectory() + "\\files";
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            int counter = 0;
+            string createText = "Id: " + "Size: " + "%" + Environment.NewLine;
+
+            for (int k = 1; k <= data.CurrentIndex; k++)
+            {
+                {
+                    counter = 0;
+                    for (int i = 0; i < data.SizeY; i++)
+                    {
+                        for (int j = 0; j < data.SizeX; j++)
+                        {
+                            if (data.GridValues[i, j] == k)
+                            {
+                                counter++;
+                            }
+                        }
+                    }
+                    if (counter != 0)
+                    {
+                        double percent = (100.0 * (double)counter / ((double)data.SizeY * (double)data.SizeX));
+                        createText += k + " " + counter + " " + Math.Round(percent, 4) + Environment.NewLine;
+                    }
+                }
+            }
+            File.WriteAllText(path + "\\exportedDistribution.txt", createText);
         }
 
     }

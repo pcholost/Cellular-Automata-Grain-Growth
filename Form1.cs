@@ -44,6 +44,7 @@ namespace CA
             import.MenuItems.Add("Structure bitmap", display.ImportFromBitmap);
             export.MenuItems.Add("Structure file", display.ExportToFile);
             export.MenuItems.Add("Structure bitmap", display.ExportToBitmap);
+            export.MenuItems.Add("Distribution file", display.ExportDistribution);
            
         }
 
@@ -72,6 +73,18 @@ namespace CA
             sizeInclusionsNum.Minimum = 1;
             sizeInclusionsNum.Maximum = pictureBox.Height / data.CellSize;
             sizeInclusionsNum.Value = 1;
+
+            probabilityUpDown.Minimum = 1;
+            probabilityUpDown.Maximum = 100;
+            probabilityUpDown.Value = 50;
+
+            grainsAmountToSelectionNum.Minimum = 1;
+            grainsAmountToSelectionNum.Maximum = 150;
+            grainsAmountToSelectionNum.Value = 20;
+
+            GBNumeric.Value = 1;
+            GBNumeric.Minimum = 1;
+            GBNumeric.Maximum = 5;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -79,7 +92,19 @@ namespace CA
             MouseEventArgs me = (MouseEventArgs)e;
             Point coords = me.Location;
 
-            neighbor.OwnNeighborClick(coords, display);
+            if (data.IsSelectionClicked == true)
+            {
+                neighbor.GrainClick(coords, display);
+            }
+            else
+            {
+                neighbor.OwnNeighborClick(coords, display);
+            }
+
+            if (data.IsBorderyClicked == true)
+            {
+                neighbor.GrainBorderClick(coords, display);
+            }
         }
 
         private void sizeXDimension_ValueChanged(object sender, EventArgs e)
@@ -119,7 +144,7 @@ namespace CA
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {
-
+            
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -166,7 +191,90 @@ namespace CA
 
         private void inclusionsAfter_Click(object sender, EventArgs e)
         {
-            neighbor.RandomInclusionsAfter(display);
+            if (data.EndInclusionAfter)
+            {
+                neighbor.RandomInclusionsAfter(display);
+            }
+        }
+
+        private void checkBoxInclusion_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxInclusion.Checked)
+            {
+                data.InclusionType = true;
+            }
+            else
+            {
+                data.InclusionType = false;
+            }
+        }
+
+        private void probabilityUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            data.Probability = decimal.ToInt32(probabilityUpDown.Value);
+        }
+
+        private void controlStep_Click(object sender, EventArgs e)
+        {
+            neighbor.OwnShapeNeighbor();
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSelection.Checked)
+            {
+                data.SelectionType = true;
+            }
+            else
+            {
+                data.SelectionType = false;
+            }
+
+        }
+
+        private void grainsAmountToSelectionNum_ValueChanged(object sender, EventArgs e)
+        {
+            data.GrainsToSelectionAmount = decimal.ToInt32(grainsAmountToSelectionNum.Value);
+        }
+
+        private void selectGrainsButton_Click(object sender, EventArgs e)
+        {
+            data.IsSelectionClicked = true;
+        }
+
+        private void singleStructureStepButton_Click(object sender, EventArgs e)
+        {
+            neighbor.OwnSelectionNeighbor();
+        }
+
+        private void generateWithStructureBtn_Click(object sender, EventArgs e)
+        {
+            neighbor.RandomNeighborSelection(display);
+        }
+
+        private void generateBoundaryBtn_Click(object sender, EventArgs e)
+        {
+            neighbor.GenerateBorders(display);
+        }
+
+        private void GBNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            data.GbSize = decimal.ToInt32(GBNumeric.Value);
+        }
+
+        private void selectBorderGrainBtn_Click(object sender, EventArgs e)
+        {
+            data.IsBorderyClicked = true;
+        }
+
+        private void selectedBordersBtn_Click(object sender, EventArgs e)
+        {
+            neighbor.ShowSelectedBorders(display);
         }
     }
 }

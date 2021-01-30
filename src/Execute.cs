@@ -44,7 +44,12 @@ namespace CA.src
 
                         value = Moore(y, x, data.GridValues); 
 
-                        if (value == 1 && data.IsInclusionBefore == true)
+                        if (value > 1 && data.IsInclusionBefore == true)
+                        {
+                            continue;
+                        }
+
+                        if (value < data.GrainsAmount+1 && data.FlagToGrain == true)
                         {
                             continue;
                         }
@@ -139,7 +144,7 @@ namespace CA.src
             }
         }
 
-        public void CalculateSelection()
+        public void CalculateSelection(int[,] array)
         {
             for (int i = 0; i < data.Speed; i++)
             {
@@ -149,7 +154,7 @@ namespace CA.src
                 {
                     for (int x = 0; x < data.SizeX; x++)
                     {
-                        int actualCell = data.GrainsSelectionArray[y, x];
+                        int actualCell = array[y, x];
                         nextStepGrid[y, x] = actualCell;
 
                         if (actualCell != 0)
@@ -159,7 +164,7 @@ namespace CA.src
 
                         int value = 0;
 
-                        value = Moore(y, x, data.GrainsSelectionArray);
+                        value = Moore(y, x, array);
 
                         if (value == 1 && data.IsInclusionBefore == true)
                         {
@@ -174,13 +179,38 @@ namespace CA.src
                     }
                 }
 
-                data.GrainsSelectionArray = nextStepGrid;
-
-                MergeArraySelection();
+                if (data.SelectionType == true)
+                {
+                    data.GrainsSelectionArray = nextStepGrid;
+                    MergeArraySelection();
+                }
+                else
+                {
+                    data.GeneratedGrains = nextStepGrid;
+                    MergeArraySelectionSubstructure();
+                } 
 
                 display.PrintCells();
             }
 
+        }
+
+        public void MergeArraySelectionSubstructure()
+        {
+            for (int k = 0; k < data.SizeY; k++)
+            {
+                for (int l = 0; l < data.SizeX; l++)
+                {
+                    if(data.LocalSubstructure[k,l] == 0)
+                    {
+                        data.GridValues[k, l] = data.GeneratedGrains[k, l];
+                    }
+                    else
+                    {
+                        data.GridValues[k, l] = data.LocalSubstructure[k, l];
+                    }
+                }
+            }
         }
 
         public void MergeArraySelection()

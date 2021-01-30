@@ -36,6 +36,8 @@ namespace CA.src
         private int colorDualPhase;
         private int gbSize;
         private bool isBorderyClicked;
+        private int numberOfLeftGrains;
+        private bool flagToGrain;
 
         private bool isSelectionClicked;
 
@@ -51,6 +53,10 @@ namespace CA.src
         private int[,] grainsSelectionArray;
         private int[,] boundariesArray;
         private int[,] selectedBoundaryArray;
+        private int[,] helpArraySubstructure;
+        private int[,] blankToFillArray;
+        private int[,] generatedGrains;
+        private int[,] localSubstructure;
 
         private Point[,] gridPoints;
 
@@ -77,8 +83,10 @@ namespace CA.src
         public int[,] GridValues { get => gridValues; set => gridValues = value; }
         public Point[,] GridPoints { get => gridPoints; set => gridPoints = value; }
         public int Speed { get => speed; set => speed = value; }
+        public int NumberOfLeftGrains { get => numberOfLeftGrains; set => numberOfLeftGrains = value; }
         public int ColorDualPhase { get => colorDualPhase; set => colorDualPhase = value; }
         public bool FlagColorDualPhase { get => flagColorDualPhase; set => flagColorDualPhase = value; }
+        public bool FlagToGrain { get => flagToGrain; set => flagToGrain = value; }
         public int MaxValueToProbability { get => maxValueToProbability; set => maxValueToProbability = value; }
         public int MaxCounterToProbability { get => maxCounterToProbability; set => maxCounterToProbability = value; }
         public int Probability { get => probability; set => probability = value; }
@@ -89,6 +97,7 @@ namespace CA.src
         public int InclusionsAmount { get => inclusionsAmount; set => inclusionsAmount = value; }
         public int GbSize { get => gbSize; set => gbSize = value; }
         public int[,] BoundaryValues { get => boundaryValues; set => boundaryValues = value; }
+        public int[,] HelpArraySubstructure { get => helpArraySubstructure; set => helpArraySubstructure = value; }
         public int[,] HelpBoundaryValues { get => helpBoundaryValues; set => helpBoundaryValues = value; }
         public int[,] HelpArray { get => helpArray; set => helpArray = value; }
         public int[,] SubstructureArray { get => substructureArray; set => substructureArray = value; }
@@ -96,6 +105,9 @@ namespace CA.src
         public int[,] GrainsSelectionArray { get => grainsSelectionArray; set => grainsSelectionArray = value; }
         public int[,] BoundariesArray { get => boundariesArray; set => boundariesArray = value; }
         public int[,] SelectedBoundariesArray { get => boundariesArray; set => boundariesArray = value; }
+        public int[,] BlankToFillArray { get => blankToFillArray; set => blankToFillArray = value; }
+        public int[,] GeneratedGrains { get => generatedGrains; set => generatedGrains = value; }
+        public int[,] LocalSubstructure { get => localSubstructure; set => localSubstructure = value; }
 
         public Data()
         {
@@ -105,7 +117,7 @@ namespace CA.src
             inclusionType = false;
             selectionType = false;
             currentIndex = 0;
-            CellSize = 10;
+            CellSize = 12;
             inclusionSize = 1;
         }
 
@@ -125,6 +137,7 @@ namespace CA.src
             IsInclusionBefore = false;
             EndInclusionAfter = true;
             flagColorDualPhase = false;
+            flagToGrain = false;
             gridValues = new int[sizeY, sizeX];
             boundaryValues = new int[sizeY, sizeX];
             helpBoundaryValues = new int[sizeY, sizeX];
@@ -134,7 +147,11 @@ namespace CA.src
             grainsSelectionArray = new int[sizeY, sizeX];
             boundariesArray = new int[sizeY, sizeX];
             selectedBoundaryArray = new int[sizeY, sizeX];
-            
+            helpArraySubstructure = new int[sizeY, sizeX];
+            blankToFillArray = new int[sizeY, sizeX];
+            generatedGrains = new int[SizeY, SizeX];
+            localSubstructure = new int[SizeY, SizeX];
+
             for (int i = 0; i < sizeY; i++)
             {
                 for (int j = 0; j < sizeX; j++)
@@ -147,6 +164,7 @@ namespace CA.src
                     grainsSelectionArray[i, j] = 0;
                     boundariesArray[i, j] = 0;
                     selectedBoundaryArray[i, j] = 0;
+                    helpArraySubstructure[i, j] = 0;
                 }
             }
         }

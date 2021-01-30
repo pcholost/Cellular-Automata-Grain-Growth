@@ -66,9 +66,19 @@ namespace CA.src
 
         public void OwnSelectionNeighbor()
         {
-            if (data.CurrentIndex > data.GrainsAmount)
+            if (data.SelectionType == false)
             {
-                execute.CalculateSelection();
+                if (data.CurrentIndex > data.GrainsAmount)
+                {
+                    execute.CalculateSelection(data.GeneratedGrains);
+                }
+            }
+            else
+            {
+                if (data.CurrentIndex > data.GrainsAmount)
+                {
+                    execute.CalculateSelection(data.GrainsSelectionArray);
+                }
             }
         }
 
@@ -206,6 +216,16 @@ namespace CA.src
 
             Random random = new Random();
 
+            int localValue = 0;
+
+            bool localFlag = false;
+
+            int[,] localSubstructure = new int[data.SizeY, data.SizeX];
+
+            int[,] generatedGrains = new int[data.SizeY, data.SizeX];
+
+            int[,] helpArray = new int[data.SizeY, data.SizeX];
+
             for (int i = 0; i < data.GrainsToSelectionAmount; i++)
             {
                 if (data.IsInclusionBefore)
@@ -226,20 +246,8 @@ namespace CA.src
                 {
                     int a = random.Next(data.SizeY);
                     int b = random.Next(data.SizeX);
-
-                    if (data.SelectionType == false)
-                    {
-                        if (data.SubstructureArray[a, b] == 0)
-                        {
-                            data.AddNewColor();
-                            data.GrainsSelectionArray[a, b] = ++data.CurrentIndex;
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
-                    else
+                  
+                    if (data.SelectionType == true)
                     {
                         if (data.DualPhaseArray[a, b] == 0)
                         {
@@ -253,29 +261,165 @@ namespace CA.src
                     }
                 }
             }
+       
+            if (data.SelectionType == false)
+            {
+
+                for (int k = 0; k < data.SizeY; k++)
+                {
+                    for (int l = 0; l < data.SizeX; l++)
+                    {
+                        data.HelpArraySubstructure[k, l] = data.GridValues[k, l];
+                    }
+                }
+
+                for (int k = 0; k < data.SizeY; k++)
+                {
+                    for (int l = 0; l < data.SizeX; l++)
+                    {
+                        if (data.HelpArraySubstructure[k, l] == data.SubstructureArray[k, l])
+                        {
+                            data.HelpArraySubstructure[k, l] = 0;
+                        }
+                    }
+                }
+                
+                for (int k = 0; k < data.SizeY; k++)
+                {
+                    for (int l = 0; l < data.SizeX; l++)
+                    {
+                        if (localFlag == false)
+                        {
+                            if (data.HelpArraySubstructure[k, l] != localValue)
+                            {
+                                localValue++;
+                                localFlag = true;
+                            }
+                        }
+                    }
+                }
+
+                for (int k = 0; k < data.SizeY; k++)
+                {
+                    for (int l = 0; l < data.SizeX; l++)
+                    {
+                        if (data.HelpArraySubstructure[k, l] == localValue)
+                        {
+                            localSubstructure[k, l] = data.HelpArraySubstructure[k, l];
+                            helpArray[k, l] = data.HelpArraySubstructure[k, l];
+                        }
+                        else
+                        {
+                            localSubstructure[k, l] = 0;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < data.GrainsToSelectionAmount; i++)
+                {
+                    if (data.IsInclusionBefore)
+                    {
+                        data.AddNewColor();
+                        int a = random.Next(data.SizeY);
+                        int b = random.Next(data.SizeX);
+                        if (data.GridValues[a, b] != 1)
+                        {
+                            data.GrainsSelectionArray[a, b] = ++data.CurrentIndex;
+                        }
+                        else
+                        {
+                            i--;
+                        }
+                    }
+                    else
+                    {
+                        int a = random.Next(data.SizeY);
+                        int b = random.Next(data.SizeX);
+
+                        if (localSubstructure[a, b] != 0)
+                        {
+                            data.AddNewColor();
+                            localSubstructure[a, b] = ++data.CurrentIndex;
+                        }
+                        else
+                        {
+                            i--;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < data.SizeY; i++)
+                {
+                    for (int j = 0; j < data.SizeX; j++)
+                    {
+                        data.BlankToFillArray[i, j] = data.GridValues[i, j];
+                    }
+                }
+
+                for (int i = 0; i < data.SizeY; i++)
+                {
+                    for (int j = 0; j < data.SizeX; j++)
+                    {
+                        data.LocalSubstructure[i, j] = data.GridValues[i, j];
+                        if (localSubstructure[i, j] != 0)
+                        {
+                            data.LocalSubstructure[i,j] = 0;
+                        }
+                        if (data.GeneratedGrains[i,j] != 0)
+                        {
+                            data.LocalSubstructure[i, j] = data.GeneratedGrains[i, j];
+                        }
+                    }
+                }
+
+
+                for (int i = 0; i < data.SizeY; i++)
+                {
+                    for (int j = 0; j < data.SizeX; j++)
+                    {
+                        if (localSubstructure[i, j] > data.GrainsAmount)
+                        {
+                            data.GeneratedGrains[i, j] = localSubstructure[i, j];                     
+                        }
+                    }
+                }
+
+                for (int i = 0; i < data.SizeY; i++)
+                {
+                    for (int j = 0; j < data.SizeX; j++)
+                    {
+                        if (data.BlankToFillArray[i,j] == helpArray[i,j])
+                        {
+                            data.BlankToFillArray[i,j] = 0;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < data.SizeY; i++)
+                {
+                    for (int j = 0; j < data.SizeX; j++)
+                    {
+                        if (data.BlankToFillArray[i, j] != data.GeneratedGrains[i,j] && data.GeneratedGrains[i,j] != 0)
+                        {
+                            data.BlankToFillArray[i, j] = data.GeneratedGrains[i, j];
+                            data.FlagToGrain = true;
+                        }
+                    }
+                }
+
+            }
+
+
 
             for (int i = 0; i < data.SizeY; i++)
             {
                 for (int j = 0; j < data.SizeX; j++)
                 {
-                    data.GridValues[i, j] = data.GrainsSelectionArray[i, j];
+                    data.GridValues[i, j] = data.BlankToFillArray[i, j];
                 }
             }
-            
-            if (data.SelectionType == false)
-            {
-                for (int i = 0; i < data.SizeY; i++)
-                {
-                    for (int j = 0; j < data.SizeX; j++)
-                    {
-                        if (data.SubstructureArray[i, j] != 0)
-                        {
-                            data.GridValues[i, j] = data.SubstructureArray[i, j];
-                        }
-                    }
-                }
-            }
-            else
+
+            if (data.SelectionType == true)
             {
                 for (int i = 0; i < data.SizeY; i++)
                 {
@@ -331,6 +475,8 @@ namespace CA.src
                     }
                 }
             }
+
+            data.NumberOfLeftGrains--;
 
             data.FlagColorDualPhase = true;
         }
@@ -656,7 +802,6 @@ namespace CA.src
                         {
                             if (data.HelpBoundaryValues[i, j] == 1)
                             {
-                                //do poprawy, bo czasami wartosci graniczne generowane są niepoprawnie przez to że brakuje wartości przy borderze
                                 if (i < data.GridValues.GetLength(0) - data.InclusionSize && j < data.GridValues.GetLength(1) - data.InclusionSize)
                                     data.BoundaryValues[i + k, j + l] = data.GrainsAmount + 1;
                                 if (i - data.InclusionSize  > 0 && j - data.InclusionSize > 0)

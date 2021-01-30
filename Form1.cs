@@ -64,7 +64,7 @@ namespace CA
 
             speedNum.Minimum = 1;
             speedNum.Maximum = 100;
-            speedNum.Value = 1;
+            speedNum.Value = 5;
 
             inclusionsAmountNum.Minimum = 1;
             inclusionsAmountNum.Maximum = 100;
@@ -80,7 +80,7 @@ namespace CA
 
             grainsAmountToSelectionNum.Minimum = 1;
             grainsAmountToSelectionNum.Maximum = 150;
-            grainsAmountToSelectionNum.Value = 20;
+            grainsAmountToSelectionNum.Value = 3;
 
             GBNumeric.Value = 1;
             GBNumeric.Minimum = 1;
@@ -140,6 +140,7 @@ namespace CA
         private void grainsAmount_ValueChanged(object sender, EventArgs e)
         {
             data.GrainsAmount = decimal.ToInt32(grainsAmountNum.Value);
+            data.NumberOfLeftGrains = decimal.ToInt32(grainsAmountNum.Value);
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
